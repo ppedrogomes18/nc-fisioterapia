@@ -54,6 +54,18 @@ Nunca use foto de paciente sem autorização escrita.
 
 ## Publicar
 
+**Publicado hoje em:** https://nc-fisioterapia.vercel.app (projeto `nc-fisioterapia` na
+Vercel, sem Git conectado). Versão para a cliente aprovar o visual: pendências ocultas,
+sem nome/CREFITO.
+
+Para atualizar o mesmo endereço (CLI da Vercel instalada em `~/.local/vercel-cli`):
+
+```bash
+export PATH="$HOME/.local/node/bin:$PATH"
+cd site && rm -rf .next out && npm run build      # com nome e CREFITO preenchidos
+cd out && ~/.local/vercel-cli/node_modules/.bin/vercel deploy --prod --yes --project nc-fisioterapia
+```
+
 **Vercel:** importe o repositório, defina *Root Directory* = `site`. O preset Next.js já
 usa `output: "export"`. Para publicar uma prévia antes do CREFITO, adicione a variável
 `PERMITIR_PENDENTES=1` no projeto (e remova quando os dados chegarem).
