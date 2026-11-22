@@ -19,9 +19,16 @@ const inter = Inter({
 });
 
 const dominio = confirmado(clinica.site.dominio);
+// Enquanto o domínio não é confirmado, usa o endereço que a Vercel/Netlify
+// informam no build (só para as URLs absolutas da imagem OG; sem canonical).
+const dominioProvisorio = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : process.env.URL;
+const base = dominio ?? dominioProvisorio;
 
 export const metadata: Metadata = {
-  ...(dominio ? { metadataBase: new URL(dominio), alternates: { canonical: "/" } } : {}),
+  ...(base ? { metadataBase: new URL(base) } : {}),
+  ...(dominio ? { alternates: { canonical: "/" } } : {}),
   title: textos.seo.titulo,
   description: textos.seo.descricao,
   applicationName: clinica.nome,
@@ -48,16 +55,9 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Esconde o hero antes da primeira pintura para a intro não piscar
-// (só com movimento liberado; ver globals.css).
-const scriptIntro = `try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("nc-intro")}catch(e){}`;
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pt-BR" className={`${cormorant.variable} ${inter.variable}`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: scriptIntro }} />
-      </head>
+    <html lang="pt-BR" className={`${cormorant.variable} ${inter.variable}`}>
       <body>{children}</body>
     </html>
   );

@@ -1,4 +1,5 @@
 import { Clock, MapPin } from "lucide-react";
+import type { CSSProperties } from "react";
 import { clinica, textos, type Servico } from "@/content/clinica";
 import { aparece } from "@/lib/pendente";
 import { linkWhatsApp } from "@/lib/whatsapp";
@@ -15,22 +16,22 @@ export function Hero({ servicos, linkSecundario }: { servicos: Servico[]; linkSe
   return (
     <section className="nc-hero" id="inicio" aria-labelledby="nc-h1">
       <div className="nc-hero-copy">
-        <p className="nc-kicker" data-intro="">
+        <p className="nc-kicker" data-intro="" style={{ "--i": 0 } as CSSProperties}>
           {t.kicker}
         </p>
         <h1 className="nc-titulo" id="nc-h1" aria-label={titulo.join(" ")}>
           {titulo.map((l, k) => (
             <span key={k} className="nc-linha" aria-hidden="true">
-              <span className="nc-linha-in" data-line="">
+              <span className="nc-linha-in" data-line="" style={{ "--i": k } as CSSProperties}>
                 {k === titulo.length - 1 && titulo.length > 1 ? <em>{l}</em> : l}
               </span>
             </span>
           ))}
         </h1>
-        <p className="nc-sub" data-intro="">
+        <p className="nc-sub" data-intro="" style={{ "--i": 1 } as CSSProperties}>
           {t.subtitulo}
         </p>
-        <div className="nc-hero-acoes" data-intro="">
+        <div className="nc-hero-acoes" data-intro="" style={{ "--i": 2 } as CSSProperties}>
           <Botao
             rotulo={t.primario}
             href={linkWhatsApp(textos.hero.whats.mensagemGeral)}

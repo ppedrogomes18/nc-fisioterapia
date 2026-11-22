@@ -27,27 +27,10 @@ export function useAnimacoesPagina(escopo: RefObject<HTMLElement | null>) {
     () => {
       const r = escopo.current;
       if (!r) return;
-      const html = document.documentElement;
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const q = gsap.utils.selector(r);
-
-        // intro: as linhas do título sobem das máscaras, a janela se ergue
-        const intro = gsap.timeline({
-          defaults: { ease: "expo.out" },
-          onComplete: () => html.classList.remove("nc-intro"),
-        });
-        intro
-          .fromTo(q(".nc-header"), { y: -24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1, clearProps: "all" })
-          .fromTo(q("[data-line]"), { yPercent: 115, rotate: 2.5 }, { yPercent: 0, rotate: 0, duration: 1.3, stagger: 0.1 }, 0.1)
-          .fromTo(q("[data-intro]"), { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.1, stagger: 0.08 }, 0.3)
-          .fromTo(
-            q("[data-hero-palco]"),
-            { y: 110, autoAlpha: 0, scale: 0.94 },
-            { y: 0, autoAlpha: 1, scale: 1, duration: 1.6, clearProps: "transform" },
-            0.35,
-          );
+        // (a intro do hero é CSS puro, em globals.css, para não atrasar o LCP)
 
         // a janela do hero abre até sangrar a tela; a foto assenta do zoom 1.16 → 1
         const hv = r.querySelector<HTMLElement>(".nc-hero-janela");
@@ -158,7 +141,6 @@ export function useAnimacoesPagina(escopo: RefObject<HTMLElement | null>) {
         cancelAnimationFrame(raf);
         window.removeEventListener("load", aoCarregar);
         mm.revert();
-        html.classList.remove("nc-intro");
       };
     },
     { scope: escopo },
