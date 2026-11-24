@@ -52,28 +52,41 @@ Nunca use foto de paciente sem autorização escrita.
 | `sobre.webp` | 1200 × 1500 | Retrato 4:5: profissional ou espaço da clínica |
 | `cta.webp` | 2400 × 1400 | É escurecida automaticamente (texto claro por cima) |
 
-## Publicar
+## Publicar (GitHub Pages)
 
-**Publicado hoje em:** https://nc-fisioterapia.vercel.app (projeto `nc-fisioterapia` na
-Vercel, sem Git conectado). Versão para a cliente aprovar o visual: pendências ocultas,
-sem nome/CREFITO.
-
-Para atualizar o mesmo endereço (CLI da Vercel instalada em `~/.local/vercel-cli`):
+O site é publicado pelo **GitHub Pages**, de graça e sem selo de propaganda, em
+**https://ncfisioterapia.com.br**. O workflow `.github/workflows/pages.yml` (na raiz do
+repositório) roda `npm run build` na pasta `site/` e publica `site/out` a cada push na
+`main`:
 
 ```bash
-export PATH="$HOME/.local/node/bin:$PATH"
-cd site && rm -rf .next out && npm run build      # com nome e CREFITO preenchidos
-cd out && ~/.local/vercel-cli/node_modules/.bin/vercel deploy --prod --yes --project nc-fisioterapia
+git add -A
+git commit -m "Descreva a alteração"
+git push
 ```
 
-**Vercel:** importe o repositório, defina *Root Directory* = `site`. O preset Next.js já
-usa `output: "export"`. Para publicar uma prévia antes do CREFITO, adicione a variável
-`PERMITIR_PENDENTES=1` no projeto (e remova quando os dados chegarem).
+Em 1 a 2 minutos o site atualiza. Dá para acompanhar em **Actions** no repositório.
+O build falha de propósito se nome/CREFITO voltarem a ficar "[A CONFIRMAR]".
 
-**Netlify:** *Base directory* = `site`, *Build command* = `npm run build`,
-*Publish directory* = `site/out` (mesma variável para prévia).
+**Configuração única no GitHub:** *Settings → Pages → Source* = **GitHub Actions**;
+*Custom domain* = `ncfisioterapia.com.br`; depois que o certificado sair, marque
+**Enforce HTTPS**. O arquivo `public/CNAME` também registra o domínio.
 
-**Qualquer hospedagem:** rode `npm run build` e envie o conteúdo de `out/`.
+`site.dominio` em `src/content/clinica.ts` liga o canonical, o `sitemap.xml`, a linha
+`Sitemap:` do `robots.txt` e as URLs do JSON-LD. Se trocar de domínio, mude lá e no
+`public/CNAME`.
 
-Quando o domínio for confirmado, preencha `site.dominio` (com `https://`): isso liga o
-canonical, o `sitemap.xml`, a linha `Sitemap:` do `robots.txt` e as URLs do JSON-LD.
+## Domínio (ncfisioterapia.com.br)
+
+- **Registro:** Registro.br, no CPF ou CNPJ da clínica, com vencimento anual. Renove todo
+  ano para não perder o domínio.
+- **DNS** (no próprio Registro.br, em *Editar zona*):
+  - `A` em `ncfisioterapia.com.br` → `185.199.108.153`, `185.199.109.153`,
+    `185.199.110.153` e `185.199.111.153` (GitHub Pages)
+  - `AAAA` em `ncfisioterapia.com.br` → `2606:50c0:8000::153`, `2606:50c0:8001::153`,
+    `2606:50c0:8002::153` e `2606:50c0:8003::153`
+  - `CNAME` em `www` → `ppedrogomes18.github.io`
+- **HTTPS:** emitido de graça pelo GitHub (*Settings → Pages → Enforce HTTPS*).
+
+A versão antiga em https://nc-fisioterapia.vercel.app pode ser apagada na Vercel depois
+que o domínio estiver no ar.

@@ -45,7 +45,7 @@ export type Horario = {
 };
 
 const endereco = {
-  logradouro: "Av. Alfredo Nasser, Qd. 14, Lt. 14-A, Loja 3",
+  logradouro: "Av. Alfredo Nasser, 14",
   bairro: "Vila Juracy",
   cidade: "Luziânia",
   uf: "GO",
@@ -84,16 +84,23 @@ export const clinica = {
   },
 
   responsavel: {
-    nome: "[A CONFIRMAR]",
+    nome: "Natácia Costa",
     profissao: "Fisioterapeuta",
-    crefito: "[A CONFIRMAR]",
+    crefito: "350597-F",
   },
 
   horario: {
     /** Texto exibido, ex.: "Seg. a sex. · 7h às 19h". */
-    resumo: "[A CONFIRMAR]",
+    resumo: "Seg. a sex. 8h–18h · Sáb. 8h–12h",
     /** Só preencha quando confirmado: entra no JSON-LD (openingHoursSpecification). */
-    schema: [] as Horario[],
+    schema: [
+      {
+        dias: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        abre: "08:00",
+        fecha: "18:00",
+      },
+      { dias: ["Saturday"], abre: "08:00", fecha: "12:00" },
+    ] as Horario[],
   },
 
   /** Convênios aceitos, ou "Somente particular". */
@@ -106,7 +113,7 @@ export const clinica = {
 
   site: {
     /** Domínio final, com https://, sem barra no fim. */
-    dominio: "[A CONFIRMAR]",
+    dominio: "https://ncfisioterapia.com.br",
     /** Opcional. Ex.: "Site por Fulano". */
     creditoDesenvolvedor: "[A CONFIRMAR]",
   },
