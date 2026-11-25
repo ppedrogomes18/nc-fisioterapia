@@ -1,20 +1,26 @@
-import { clinica } from "@/content/clinica";
+import { clinica, textos } from "@/content/clinica";
 import { confirmado, ehPendente } from "./pendente";
 
 /**
- * JSON-LD (schema.org). Só entra o que está confirmado:
- * url/image dependem do domínio; horário e redes só quando preenchidos;
- * FAQPage só com respostas confirmadas.
+ * JSON-LD (schema.org) da clínica. Segue o bloco combinado para o Google
+ * (Physiotherapy): os dados saem de src/content/clinica.ts.
+ * O FAQPage só entra com respostas confirmadas.
  */
 export function jsonLd(): Record<string, unknown>[] {
-  const dominio = confirmado(clinica.site.dominio);
+  const dominio = clinica.site.dominio;
   const instagram = confirmado(clinica.redes.instagram);
+  const perfil = clinica.mapa.perfilGoogle;
   const e = clinica.endereco;
+  const r = clinica.responsavel;
 
   const negocio: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Physiotherapy",
+    "@id": `${dominio}/#clinica`,
     name: clinica.nome,
+    alternateName: textos.seo.nomeAlternativo,
+    description: textos.seo.descricaoSchema,
+    url: `${dominio}/`,
     telephone: clinica.contato.telefoneSchema,
     email: clinica.contato.email,
     address: {
@@ -25,22 +31,26 @@ export function jsonLd(): Record<string, unknown>[] {
       postalCode: e.cep,
       addressCountry: e.pais,
     },
-    areaServed: { "@type": "City", name: `${e.cidade} – ${e.uf}` },
-  };
-  if (dominio) {
-    negocio.url = dominio + "/";
-    negocio.image = dominio + "/logo-nc.jpg";
-    negocio["@id"] = dominio + "/#clinica";
-  }
-  if (clinica.horario.schema.length) {
-    negocio.openingHoursSpecification = clinica.horario.schema.map((h) => ({
+    geo: { "@type": "GeoCoordinates", ...clinica.mapa.geo },
+    hasMap: perfil,
+    areaServed: { "@type": "City", name: e.cidade },
+    openingHoursSpecification: clinica.horario.schema.map((h) => ({
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: h.dias,
+      dayOfWeek: h.dias.length === 1 ? h.dias[0] : h.dias,
       opens: h.abre,
       closes: h.fecha,
-    }));
-  }
-  if (instagram) negocio.sameAs = [instagram];
+    })),
+    availableService: clinica.servicos
+      .filter((s) => !ehPendente(s.status))
+      .map((s) => ({ "@type": "MedicalTherapy", name: s.titulo })),
+    employee: {
+      "@type": "Person",
+      name: r.nome,
+      jobTitle: r.profissao,
+      identifier: { "@type": "PropertyValue", propertyID: "CREFITO", value: r.crefito },
+    },
+    sameAs: [perfil, ...(instagram ? [instagram] : [])],
+  };
 
   const blocos: Record<string, unknown>[] = [negocio];
 

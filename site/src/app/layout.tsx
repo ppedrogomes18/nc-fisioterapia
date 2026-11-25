@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import { clinica, textos } from "@/content/clinica";
 import { confirmado } from "@/lib/pendente";
+import { jsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -30,6 +31,7 @@ export const metadata: Metadata = {
   ...(base ? { metadataBase: new URL(base) } : {}),
   ...(dominio ? { alternates: { canonical: "/" } } : {}),
   title: textos.seo.titulo,
+  verification: { google: textos.seo.googleVerificacao },
   description: textos.seo.descricao,
   applicationName: clinica.nome,
   formatDetection: { telephone: false, email: false, address: false },
@@ -37,6 +39,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "pt_BR",
     siteName: clinica.nome,
+    ...(dominio ? { url: "/" } : {}),
     title: textos.seo.titulo,
     description: textos.seo.descricao,
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: textos.seo.ogAlt }],
@@ -58,6 +61,15 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={`${cormorant.variable} ${inter.variable}`}>
+      <head>
+        {jsonLd().map((dados, k) => (
+          <script
+            key={k}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(dados).replace(/</g, "\\u003c") }}
+          />
+        ))}
+      </head>
       <body>{children}</body>
     </html>
   );

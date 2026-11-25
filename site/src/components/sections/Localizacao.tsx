@@ -1,4 +1,4 @@
-import { Navigation } from "lucide-react";
+import { Navigation, Star } from "lucide-react";
 import { clinica, textos } from "@/content/clinica";
 import { aparece, confirmado } from "@/lib/pendente";
 import { Botao } from "../ui/Botao";
@@ -9,8 +9,9 @@ import { Mapa } from "./Mapa";
 export function linksMapa() {
   const q = encodeURIComponent(clinica.mapa.consulta);
   return {
-    embed: `https://www.google.com/maps?q=${q}&output=embed`,
+    embed: `https://www.google.com/maps?q=${encodeURIComponent(clinica.mapa.consulta).replace(/%20/g, "+").replace(/%2C/g, ",")}&output=embed`,
     google: confirmado(clinica.mapa.perfilGoogle) ?? `https://www.google.com/maps/search/?api=1&query=${q}`,
+    avaliar: confirmado(clinica.mapa.avaliarGoogle),
     waze: `https://waze.com/ul?q=${q}&navigate=yes`,
   };
 }
@@ -39,11 +40,7 @@ export function Localizacao() {
               <h3>{t.endereco}</h3>
               <address>
                 <span>{e.linha1}</span>
-                <span>
-                  {e.linha2}
-                  <br />
-                  {e.linha3}
-                </span>
+                <span>{e.linha2}</span>
               </address>
             </div>
             {aparece(clinica.horario.resumo) ? (
@@ -63,6 +60,16 @@ export function Localizacao() {
                 tamanho="sm"
                 icone={<Navigation size={15} strokeWidth={1.6} />}
               />
+              {links.avaliar ? (
+                <Botao
+                  rotulo={t.avaliar}
+                  href={links.avaliar}
+                  externo
+                  variante="contorno-claro"
+                  tamanho="sm"
+                  icone={<Star size={15} strokeWidth={1.6} />}
+                />
+              ) : null}
               <Botao rotulo={t.waze} href={links.waze} externo variante="contorno-claro" tamanho="sm" />
             </div>
           </div>

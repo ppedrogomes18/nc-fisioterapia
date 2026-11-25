@@ -9,5 +9,12 @@ export const dynamic = "force-static";
 export default function sitemap(): MetadataRoute.Sitemap {
   const dominio = confirmado(clinica.site.dominio);
   if (!dominio) return [];
-  return [{ url: `${dominio}/`, changeFrequency: "monthly", priority: 1 }];
+  return [
+    {
+      url: `${dominio}/`,
+      lastModified: clinica.site.atualizadoEm,
+      changeFrequency: "monthly",
+      priority: 1,
+    },
+  ];
 }

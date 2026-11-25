@@ -1,5 +1,5 @@
 import { Clock, MapPin } from "lucide-react";
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties } from "react";
 import { clinica, textos, type Servico } from "@/content/clinica";
 import { aparece } from "@/lib/pendente";
 import { linkWhatsApp } from "@/lib/whatsapp";
@@ -16,17 +16,23 @@ export function Hero({ servicos, linkSecundario }: { servicos: Servico[]; linkSe
   return (
     <section className="nc-hero" id="inicio" aria-labelledby="nc-h1">
       <div className="nc-hero-copy">
-        <p className="nc-kicker" data-intro="" style={{ "--i": 0 } as CSSProperties}>
-          {t.kicker}
-        </p>
-        <h1 className="nc-titulo" id="nc-h1" aria-label={titulo.join(" ")}>
-          {titulo.map((l, k) => (
-            <span key={k} className="nc-linha" aria-hidden="true">
-              <span className="nc-linha-in" data-line="" style={{ "--i": k } as CSSProperties}>
-                {k === titulo.length - 1 && titulo.length > 1 ? <em>{l}</em> : l}
-              </span>
-            </span>
-          ))}
+        {/* O kicker ("Fisioterapia em Luziânia – GO") fica dentro do h1 para a busca, com o mesmo visual. */}
+        <h1 className="nc-hero-h1" id="nc-h1">
+          <span className="nc-kicker" data-intro="" style={{ "--i": 0 } as CSSProperties}>
+            {t.kicker}
+          </span>{" "}
+          <span className="nc-titulo">
+            {titulo.map((l, k) => (
+              <Fragment key={k}>
+                {k > 0 ? " " : null}
+                <span className="nc-linha">
+                  <span className="nc-linha-in" data-line="" style={{ "--i": k } as CSSProperties}>
+                    {k === titulo.length - 1 && titulo.length > 1 ? <em>{l}</em> : l}
+                  </span>
+                </span>
+              </Fragment>
+            ))}
+          </span>
         </h1>
         <p className="nc-sub" data-intro="" style={{ "--i": 1 } as CSSProperties}>
           {t.subtitulo}

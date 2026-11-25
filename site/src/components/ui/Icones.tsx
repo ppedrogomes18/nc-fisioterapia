@@ -3,6 +3,7 @@ import {
   Bandage,
   Bone,
   Brain,
+  ClipboardList,
   Footprints,
   HandHeart,
   type LucideIcon,
@@ -10,6 +11,7 @@ import {
 import type { IconeServico } from "@/content/clinica";
 
 export const ICONES_SERVICO: Record<IconeServico, LucideIcon> = {
+  avaliacao: ClipboardList,
   osso: Bone,
   coluna: Accessibility,
   cirurgia: Bandage,

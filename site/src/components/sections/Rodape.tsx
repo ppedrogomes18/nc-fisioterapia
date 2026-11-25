@@ -47,8 +47,6 @@ export function Rodape({ links }: { links: { rotulo: string; href: string }[] })
               {e.linha1}
               <br />
               {e.linha2}
-              <br />
-              {e.linha3}
             </address>
             {aparece(clinica.horario.resumo) ? (
               <>

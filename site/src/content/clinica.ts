@@ -7,6 +7,7 @@
 // - Todo texto de marketing é rascunho para a clínica revisar.
 
 export type IconeServico =
+  | "avaliacao"
   | "osso"
   | "cirurgia"
   | "coluna"
@@ -62,25 +63,28 @@ export const clinica = {
     /** Só dígitos, com DDI e DDD: usado em https://wa.me/<numero>. */
     whatsappNumero: "5561983207411",
     telefone: "+5561983207411",
-    telefoneSchema: "+55 61 98320-7411",
+    telefoneSchema: "+55-61-98320-7411",
     email: "ncfisioterapia.luziania@gmail.com",
   },
 
   endereco: {
     ...endereco,
-    completo: `${endereco.logradouro} — ${endereco.bairro}, ${endereco.cidade} – ${endereco.uf}, CEP ${endereco.cep}`,
+    // Igual ao perfil da clínica no Google (NAP consistente):
+    // "Av. Alfredo Nasser, 14 – Vila Juracy, Luziânia – GO, 72814-090".
+    completo: `${endereco.logradouro} – ${endereco.bairro}, ${endereco.cidade} – ${endereco.uf}, ${endereco.cep}`,
     curto: `${endereco.bairro} · ${endereco.cidade} – ${endereco.uf}`,
     linha1: endereco.logradouro,
-    linha2: `${endereco.bairro}, ${endereco.cidade} – ${endereco.uf}`,
-    linha3: `CEP ${endereco.cep}`,
+    linha2: `${endereco.bairro}, ${endereco.cidade} – ${endereco.uf}, ${endereco.cep}`,
   },
 
   mapa: {
-    // O pino do Google pode cair impreciso. Para corrigir, troque por
-    // coordenadas ("-16.2530,-47.9500") ou pelo nome do perfil no Google.
-    consulta: `${endereco.logradouro}, ${endereco.bairro}, ${endereco.cidade} - ${endereco.uf}, ${endereco.cep}`,
-    /** Link do perfil da clínica no Google Maps (se existir, os botões usam ele). */
-    perfilGoogle: "[A CONFIRMAR]",
+    /** Busca usada no mapa incorporado e no Waze. */
+    consulta: `NC Fisioterapia, ${endereco.logradouro} - ${endereco.bairro}, ${endereco.cidade} - ${endereco.uf}`,
+    /** Perfil da clínica no Google Maps. */
+    perfilGoogle: "https://maps.google.com/?cid=8160308490101150477",
+    /** Link para deixar uma avaliação no perfil do Google. */
+    avaliarGoogle: "https://g.page/r/CQ1TFSpWPT9xEBM/review",
+    geo: { latitude: -16.251872, longitude: -47.9322028 },
   },
 
   responsavel: {
@@ -90,8 +94,8 @@ export const clinica = {
   },
 
   horario: {
-    /** Texto exibido, ex.: "Seg. a sex. · 7h às 19h". */
-    resumo: "Seg. a sex. 8h–18h · Sáb. 8h–12h",
+    /** Texto exibido. Igual ao perfil do Google. */
+    resumo: "Segunda a sexta, das 8h às 18h; sábado, das 8h às 12h",
     /** Só preencha quando confirmado: entra no JSON-LD (openingHoursSpecification). */
     schema: [
       {
@@ -114,59 +118,32 @@ export const clinica = {
   site: {
     /** Domínio final, com https://, sem barra no fim. */
     dominio: "https://ncfisioterapia.com.br",
+    /** Data da última mudança de conteúdo (AAAA-MM-DD): vai no <lastmod> do sitemap. */
+    atualizadoEm: "2026-11-25",
     /** Opcional. Ex.: "Site por Fulano". */
     creditoDesenvolvedor: "[A CONFIRMAR]",
   },
 
-  // Exemplos comuns de fisioterapia: a clínica confirma, ajusta ou remove.
+  // Serviços confirmados. Não inclua serviço que a clínica não confirmou.
+  // TODO: outros serviços a confirmar com a cliente (ex.: ortopédica, coluna e
+  // postura, esportiva, neurológica, idosos). Os ícones já existem em
+  // components/ui/Icones.tsx: "osso", "coluna", "esporte", "neuro", "idoso".
   servicos: [
     {
-      id: "ortopedica",
-      titulo: "Fisioterapia ortopédica",
-      mensagem: "fisioterapia ortopédica",
-      descricao: "Cuidado com dores e lesões em músculos, articulações e ossos.",
-      icone: "osso",
-      status: "[A CONFIRMAR]",
+      id: "avaliacao",
+      titulo: "Avaliação fisioterapêutica",
+      mensagem: "fisioterapia",
+      descricao:
+        "O primeiro passo de todo tratamento. Uma conversa sobre o que você sente, o seu histórico e a sua rotina, seguida do exame físico. A partir dela, o plano é montado para o seu caso.",
+      icone: "avaliacao",
     },
     {
-      id: "coluna",
-      titulo: "Coluna e postura",
-      mensagem: "coluna e postura",
-      descricao: "Atenção às dores nas costas, no pescoço e na lombar.",
-      icone: "coluna",
-      status: "[A CONFIRMAR]",
-    },
-    {
-      id: "pos-operatorio",
-      titulo: "Reabilitação pós-operatória",
-      mensagem: "reabilitação pós-operatória",
-      descricao: "Acompanhamento para retomar o movimento depois da cirurgia.",
+      id: "pos-cirurgica",
+      titulo: "Reabilitação pós-cirúrgica",
+      mensagem: "reabilitação pós-cirúrgica",
+      descricao:
+        "Acompanhamento para recuperar força e movimento depois da cirurgia, como no pós-operatório de joelho (LCA e menisco), respeitando cada fase da cicatrização.",
       icone: "cirurgia",
-      status: "[A CONFIRMAR]",
-    },
-    {
-      id: "esportiva",
-      titulo: "Fisioterapia esportiva",
-      mensagem: "fisioterapia esportiva",
-      descricao: "Cuidado com lesões do esporte e volta à atividade física.",
-      icone: "esporte",
-      status: "[A CONFIRMAR]",
-    },
-    {
-      id: "neurologica",
-      titulo: "Fisioterapia neurológica",
-      mensagem: "fisioterapia neurológica",
-      descricao: "Reabilitação após AVC e em outras condições neurológicas.",
-      icone: "neuro",
-      status: "[A CONFIRMAR]",
-    },
-    {
-      id: "idosos",
-      titulo: "Fisioterapia para idosos",
-      mensagem: "fisioterapia para idosos",
-      descricao: "Equilíbrio, mobilidade e mais autonomia no dia a dia.",
-      icone: "idoso",
-      status: "[A CONFIRMAR]",
     },
   ] as Servico[],
 
@@ -209,9 +186,15 @@ export const clinica = {
 
 export const textos = {
   seo: {
-    titulo: "NC Fisioterapia | Fisioterapia em Luziânia – GO",
+    titulo: "Fisioterapia em Luziânia | NC Fisioterapia – Natácia Costa",
     descricao:
-      "Fisioterapia na Vila Juracy, em Luziânia – GO. Avaliação individual e um plano de tratamento feito para você. Agende sua avaliação pelo WhatsApp.",
+      "Clínica de fisioterapia na Vila Juracy, em Luziânia (GO). Avaliação individual, reabilitação pós-cirúrgica e plano de tratamento com a fisioterapeuta Natácia Costa. Agende pelo WhatsApp.",
+    /** Entra no JSON-LD (schema.org). */
+    descricaoSchema:
+      "Clínica de fisioterapia em Luziânia (GO), na Vila Juracy, com atendimento da fisioterapeuta Natácia Costa (CREFITO 350597-F). Avaliação individual, plano de tratamento personalizado e reabilitação pós-cirúrgica.",
+    nomeAlternativo: "Fisioterapia Natácia Costa",
+    /** Código de verificação do Google Search Console. */
+    googleVerificacao: "shwkxcTAG3N4-W3ZEIRBxVZMFbY0E_537GTlhc0w0wM",
     ogAlt: "Logo da NC Fisioterapia: monograma NC dourado sobre verde",
   },
 
@@ -311,7 +294,8 @@ export const textos = {
     titulo: "Na Vila Juracy,\nem Luziânia.",
     endereco: "Endereço",
     horario: "Horário de atendimento",
-    googleMaps: "Abrir no Google Maps",
+    googleMaps: "Ver no Google Maps",
+    avaliar: "Avalie a clínica no Google",
     waze: "Abrir no Waze",
     verMapa: "Ver mapa",
     mapaTitulo: "Mapa com a localização da NC Fisioterapia",

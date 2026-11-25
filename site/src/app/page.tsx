@@ -12,7 +12,6 @@ import { Sobre } from "@/components/sections/Sobre";
 import { Tratamentos } from "@/components/sections/Tratamentos";
 import { WhatsAppFlutuante } from "@/components/ui/WhatsAppFlutuante";
 import { clinica, textos } from "@/content/clinica";
-import { jsonLd } from "@/lib/seo";
 import { aparece, visiveis } from "@/lib/pendente";
 
 export default function Home() {
@@ -43,9 +42,6 @@ export default function Home() {
         <Rodape links={links} />
         <WhatsAppFlutuante />
       </Pagina>
-      {jsonLd().map((dados, k) => (
-        <script key={k} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(dados).replace(/</g, "\\u003c") }} />
-      ))}
     </>
   );
 }
