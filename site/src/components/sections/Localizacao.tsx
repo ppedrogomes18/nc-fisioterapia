@@ -3,6 +3,7 @@ import { clinica, textos } from "@/content/clinica";
 import { aparece, confirmado } from "@/lib/pendente";
 import { Botao } from "../ui/Botao";
 import { Campo } from "../ui/Campo";
+import { IconeInstagram } from "../ui/Icones";
 import { Kicker, linhas } from "../ui/Kicker";
 import { Mapa } from "./Mapa";
 
@@ -20,6 +21,7 @@ export function Localizacao() {
   const t = textos.localizacao;
   const e = clinica.endereco;
   const links = linksMapa();
+  const instagram = confirmado(clinica.redes.instagram);
   return (
     <section className="nc-sec nc-local" id="localizacao" aria-labelledby="nc-local-titulo">
       <div className="nc-container">
@@ -71,6 +73,16 @@ export function Localizacao() {
                 />
               ) : null}
               <Botao rotulo={t.waze} href={links.waze} externo variante="contorno-claro" tamanho="sm" />
+              {instagram ? (
+                <Botao
+                  rotulo={t.instagram}
+                  href={instagram}
+                  externo
+                  variante="contorno-claro"
+                  tamanho="sm"
+                  icone={<IconeInstagram size={15} strokeWidth={1.6} />}
+                />
+              ) : null}
             </div>
           </div>
         </div>

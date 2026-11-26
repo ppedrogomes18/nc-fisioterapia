@@ -46,7 +46,7 @@ export type Horario = {
 };
 
 const endereco = {
-  logradouro: "Av. Alfredo Nasser, 14",
+  logradouro: "Av. Alfredo Nasser, Quadra 14 - Lote 14A",
   bairro: "Vila Juracy",
   cidade: "Luziânia",
   uf: "GO",
@@ -70,7 +70,7 @@ export const clinica = {
   endereco: {
     ...endereco,
     // Igual ao perfil da clínica no Google (NAP consistente):
-    // "Av. Alfredo Nasser, 14 – Vila Juracy, Luziânia – GO, 72814-090".
+    // "Av. Alfredo Nasser, Quadra 14 - Lote 14A – Vila Juracy, Luziânia – GO, 72814-090".
     completo: `${endereco.logradouro} – ${endereco.bairro}, ${endereco.cidade} – ${endereco.uf}, ${endereco.cep}`,
     curto: `${endereco.bairro} · ${endereco.cidade} – ${endereco.uf}`,
     linha1: endereco.logradouro,
@@ -79,7 +79,7 @@ export const clinica = {
 
   mapa: {
     /** Busca usada no mapa incorporado e no Waze. */
-    consulta: `NC Fisioterapia, ${endereco.logradouro} - ${endereco.bairro}, ${endereco.cidade} - ${endereco.uf}`,
+    consulta: `NC Fisioterapia, ${endereco.logradouro}, ${endereco.bairro}, ${endereco.cidade} - ${endereco.uf}`,
     /** Perfil da clínica no Google Maps. */
     perfilGoogle: "https://maps.google.com/?cid=8160308490101150477",
     /** Link para deixar uma avaliação no perfil do Google. */
@@ -112,7 +112,7 @@ export const clinica = {
 
   redes: {
     /** URL completa, ex.: "https://instagram.com/ncfisioterapia". */
-    instagram: "[A CONFIRMAR]",
+    instagram: "https://www.instagram.com/nc_fisioterapia_/",
   },
 
   site: {
@@ -296,6 +296,7 @@ export const textos = {
     horario: "Horário de atendimento",
     googleMaps: "Ver no Google Maps",
     avaliar: "Avalie a clínica no Google",
+    instagram: "Instagram",
     waze: "Abrir no Waze",
     verMapa: "Ver mapa",
     mapaTitulo: "Mapa com a localização da NC Fisioterapia",
