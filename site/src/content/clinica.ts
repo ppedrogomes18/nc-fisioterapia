@@ -75,16 +75,19 @@ export const clinica = {
     curto: `${endereco.bairro} · ${endereco.cidade} – ${endereco.uf}`,
     linha1: endereco.logradouro,
     linha2: `${endereco.bairro}, ${endereco.cidade} – ${endereco.uf}, ${endereco.cep}`,
+    /** Ponto de referência, exibido logo abaixo do endereço. */
+    referencia: "Edifício Village Blanc",
   },
 
   mapa: {
-    /** Busca usada no mapa incorporado e no Waze. */
+    /** Busca usada só se o perfil do Google não estiver preenchido. */
     consulta: `NC Fisioterapia, ${endereco.logradouro}, ${endereco.bairro}, ${endereco.cidade} - ${endereco.uf}`,
     /** Perfil da clínica no Google Maps. */
     perfilGoogle: "https://maps.google.com/?cid=8160308490101150477",
     /** Link para deixar uma avaliação no perfil do Google. */
     avaliarGoogle: "https://g.page/r/CQ1TFSpWPT9xEBM/review",
-    geo: { latitude: -16.251872, longitude: -47.9322028 },
+    /** Coordenadas da porta da clínica: usadas no JSON-LD, no mapa incorporado e no Waze. */
+    geo: { latitude: -16.253198, longitude: -47.9433539 },
   },
 
   responsavel: {
@@ -294,7 +297,7 @@ export const textos = {
     titulo: "Na Vila Juracy,\nem Luziânia.",
     endereco: "Endereço",
     horario: "Horário de atendimento",
-    googleMaps: "Ver no Google Maps",
+    googleMaps: "Abrir no Google Maps",
     avaliar: "Avalie a clínica no Google",
     instagram: "Instagram",
     waze: "Abrir no Waze",

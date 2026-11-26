@@ -9,11 +9,12 @@ import { Mapa } from "./Mapa";
 
 export function linksMapa() {
   const q = encodeURIComponent(clinica.mapa.consulta);
+  const { latitude, longitude } = clinica.mapa.geo;
   return {
-    embed: `https://www.google.com/maps?q=${encodeURIComponent(clinica.mapa.consulta).replace(/%20/g, "+").replace(/%2C/g, ",")}&output=embed`,
+    embed: `https://www.google.com/maps?q=${latitude},${longitude}&z=18&output=embed`,
     google: confirmado(clinica.mapa.perfilGoogle) ?? `https://www.google.com/maps/search/?api=1&query=${q}`,
     avaliar: confirmado(clinica.mapa.avaliarGoogle),
-    waze: `https://waze.com/ul?q=${q}&navigate=yes`,
+    waze: `https://www.waze.com/ul?ll=${latitude}%2C${longitude}&navigate=yes`,
   };
 }
 
@@ -43,6 +44,7 @@ export function Localizacao() {
               <address>
                 <span>{e.linha1}</span>
                 <span>{e.linha2}</span>
+                <span>{e.referencia}</span>
               </address>
             </div>
             {aparece(clinica.horario.resumo) ? (
@@ -54,14 +56,18 @@ export function Localizacao() {
               </div>
             ) : null}
             <div className="nc-local-acoes">
-              <Botao
-                rotulo={t.googleMaps}
-                href={links.google}
-                externo
-                variante="claro"
-                tamanho="sm"
-                icone={<Navigation size={15} strokeWidth={1.6} />}
-              />
+              {/* Como chegar: Google Maps e Waze lado a lado (empilham em telas estreitas). */}
+              <div className="nc-local-rotas">
+                <Botao
+                  rotulo={t.googleMaps}
+                  href={links.google}
+                  externo
+                  variante="claro"
+                  tamanho="sm"
+                  icone={<Navigation size={15} strokeWidth={1.6} />}
+                />
+                <Botao rotulo={t.waze} href={links.waze} externo variante="contorno-claro" tamanho="sm" />
+              </div>
               {links.avaliar ? (
                 <Botao
                   rotulo={t.avaliar}
@@ -72,7 +78,6 @@ export function Localizacao() {
                   icone={<Star size={15} strokeWidth={1.6} />}
                 />
               ) : null}
-              <Botao rotulo={t.waze} href={links.waze} externo variante="contorno-claro" tamanho="sm" />
               {instagram ? (
                 <Botao
                   rotulo={t.instagram}

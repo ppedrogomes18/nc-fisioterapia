@@ -1459,6 +1459,13 @@ svg {
 .nc-local-acoes .nc-botao {
   flex: 1 1 auto;
 }
+/* Google Maps e Waze na mesma linha sempre que cabem; empilham em cards estreitos. */
+.nc-local-rotas {
+  flex: 1 1 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 .nc-botao.is-contorno-claro {
   color: var(--creme);
   box-shadow: inset 0 0 0 1px rgba(245, 241, 232, 0.3);
